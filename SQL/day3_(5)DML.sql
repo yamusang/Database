@@ -12,7 +12,8 @@
 -- 트랜잭션 관리차원에서 commit 명령어로 수행하는게 바람직!!!
 -- rollback은 마지막 commit 후에 실행한 DML을 취소(되돌리기) 합니다.
 -- 트랜잭션 : 하나의 논리적인 업무를 수행하는 단위(여러개의 DML 명령으로 구성)
-
+--atocommit 설정이 false이면 다른 세션(클라이언트-sqlplus, dbeaver,... ) 
+--            ㄴ commit 하기전까지 변경된 데이터를 확인할 수 없습니다.(반영❌)
 CREATE TABLE tbl_student(
     stuno CHAR(7) PRIMARY KEY, --학번
     name VARCHAR2(30) NOT NULL, -- 이름
