@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="mybatis.mapper.BuyMapper">
+    <!-- tbl_buy 테이블의 기본키는 buy_seq -->
+    <!-- join SQL, 집계 함수 ..... -->
+    <!-- day5_(3)문제_select.sql의 10번 -->
+    <select id="selectMoneyByCustomer" parameterType="string" resultType="CustomerBuyVo">
+        <!-- join 결과 컬럼에 매핑되는 vo클래스를 새로 정의 : CustomerSaleVo -->
+        SELECT tp.pcode,tp.pname, tp.price, tp.price*tb.quantity AS "money" 
+        FROM tbl_product tp 
+        JOIN tbl_buy tb 
+        ON tp.pcode = tb.pcode 
+        AND tb.customer_id=#{customer_id}
+    </select>
+    <!-- day5_(3)문제_select.sql의 9번 추가문제 1) -->
+     <select id="selectCountByYear" parameterType="string" resultType="map">
+        <!-- 집계 함수의 결과가 1개 행. 조회 컬럼 2개일때 효율적인 방법으로 Map을 사용할 수 있습니다. -->
+         <!-- 마이바티스는 YEAR, COUNT 컬럼명을 key로 하여 각 컬럼의 값은 value로 HashMap객체 저장 -->
+        SELECT EXTRACT(YEAR FROM buy_date) AS year, COUNT(*) AS count , SUM(quantity) AS sum
+        FROM tbl_buy tb
+        GROUP BY EXTRACT(YEAR FROM buy_date)
+        HAVING EXTRACT(YEAR FROM buy_date) = #{year}
+     </select>
+
+     <select id="selectAllCountByYear" resultType="map">
+        <!-- 집계 함수의 결과가 1개 행. 조회 컬럼 2개일때 효율적인 방법으로 Map을 사용한다면....
+         여기서 map은 최종 타입이 아니라 List의 제너릭타입 -->
+        SELECT EXTRACT(YEAR FROM buy_date) AS year, COUNT(*) AS count , SUM(quantity) AS sum
+        FROM tbl_buy tb
+        GROUP BY EXTRACT(YEAR FROM buy_date)
+        ORDER BY year
+     </select>
+
+    <select id="selectId" parameterType="string" resultType="BuyVo">
+        SELECT * FROM tbl_buy WHERE customer_id = #{customer_id}
+    </select>
+    <select id="selectPcode" parameterType="string" resultType="BuyVo">
+        SELECT * FROM tbl_buy WHERE pcode = #{pcode}
+    </select>
+    <select id="selectYQ" parameterType="string" resultType="BuyVo">
+        SELECT * FROM tbl_buy WHERE to_char(buy_date,'yyyy') = #{buy_date}
+    </select>
+    <select id="selectSum" parameterType="string" resultType="int">
+        <!-- 1개 행, 1개 컬럼 조회는 단일 값 -->
+        SELECT SUM(quantity) FROM tbl_buy WHERE pcode = #{pcode}
+    </select>
+   </mapper>

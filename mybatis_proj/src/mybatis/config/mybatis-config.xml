@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ <!-- mybatis가 데이터베이스에 연결하기 위한 설정(config)파일 
+			https://mybatis.org/mybatis-3/ko/getting-started.html 참고  -->
+<!-- db 설정 -->
+<configuration>  
+  <properties resource="mybatis/config/db.properties"/>
+  
+  <!-- 타입 별칭 설정하기 -->
+  <typeAliases>
+  		<typeAlias type="mybatis.vo.CustomerVo" alias="CustomerVo"/>
+  		<typeAlias type="mybatis.vo.ProductVo" alias="ProductVo"/>
+  		<typeAlias type="mybatis.vo.StudentVo" alias="StudentVo"/>
+  		<typeAlias type="mybatis.vo.BuyVo" alias="BuyVo"/>
+  		<typeAlias type="mybatis.vo.CustomerBuyVo" alias="CustomerBuyVo"/>
+  </typeAliases>
+  
+  <!--  jdbc 의 db 연결정보 -->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <!--  DBCP 설정 ${}매개변수 값 지정-->
+      <dataSource type="POOLED">  
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <!-- SQL 매퍼 파일을 등록.    -->
+  <mappers>
+    <mapper resource="mybatis/config/customer.xml"/>
+    <mapper resource="mybatis/config/product.xml"/>
+    <mapper resource="mybatis/config/student.xml"/>
+    <mapper resource="mybatis/config/buy.xml"/>
+  </mappers>
+</configuration>

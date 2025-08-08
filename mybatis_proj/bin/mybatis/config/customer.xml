@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tblcustomer">
+<!-- id는 sql을 찾는 식별값. (개발자 정의)
+id로 구별하는 것은 파일이 많을 때 어려움이 있습니다.
+namespace를 설정하여 namespace속성값.id값으로 dao에서 사용
+✅namespace 식별값은 문자열 지정방식에서는 임의로 설정합니다.
+ -->
+	<select id="selectByPk" parameterType="String" resultType="CustomerVo">
+	<!-- 매개변수의 값은 타입과 이름으로 매핑 -->
+	 <!-- n개 행 집합을 결과로 예상한다면 resultType은 컬렉션 자료구조의 제너릭 타입 -->
+		select * from tbl_customer#
+		where customer_id=#{customerId}
+	</select>
+	<select id="selectAll" resultType="CustomerVo">
+	<!-- n개행이지만 resultType에 List를 쓰지 않고 Generic Type만 설정 -->
+		select * from tbl_customer# order by customer_id
+	</select>
+	<!-- insert,update,delete는 resultType이 없습니다. dao에서는 preparedStatement처럼 리턴 있음. -->
+	<insert id="insert" parameterType="CustomerVo">
+	<!-- 매개변수의 이름은 vo 객체의 getter를 실행합니다. (getXXXX). XXXX이 매개변수 이름. (3.4 이전버전)
+	그 이후는 직접 필드명으로 접근해서 가져온다.🔥vo클래스에 선언된 필드명을 매개변수 이름으로 해야합니다.
+	-->
+		insert into tbl_customer#(customer_id,name,email,age,reg_date) 
+                    values (#{customerId}, #{name}, #{email}, #{age}, sysdate)
+	</insert>
+	<update id="update" parameterType="CustomerVo">
+		update tbl_customer# 
+		set email = #{email}, age = #{age} 
+		where customer_id = #{customerId}
+	</update>
+	<delete id="delete" parameterType="String">
+		delete from tbl_customer# 
+			where customer_id = #{customerId}
+	</delete>
+</mapper>  
+<!-- 
+✅parameterType,resultType이 클래스일 때, "피키지 이름.클래스 이름"으로 해야 합니다.
+CustomerVo는 TypeAlias(별칭)를 설정하고 사용중이며 그렇지 않다면 mybatis.vo.CustomerVo로 해야합니다.
+String은 기본패키지 java.lang에 속하는 클래스이므로 생략할 수 있습니다.
+parameterType="map" 또는 "list" 또는 "collection"
+resultType = "Map"
+${}  : jsp에서 getAttribute 역할
+       문자열 기호 ' ' 가 자동으로 생기지 않습니다.
+#{}  : 매퍼 XML 에서 파라미터 기호
+       문자열 기호 ' ' 가 자동으로 생깁니다.
+ -->

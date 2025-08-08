@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <!--SQL 매퍼를 매퍼 인터페이스로 사용하는 방식
+	namespace는 인터페이스의 "패키지 이름. 인터페이스 이름"
+	id 값은 인터페이스의 추상메소드 이름으로 사용.
+		ㄴ parameterType:추상메소드의 인자
+		ㄴ resultType : 추상메소드의 리턴 타입
+   --> 
+<mapper namespace="mybatis.mapper.StudentMapper">
+	<select id="selectByPk" parameterType="String" resultType="StudentVo">
+		<!-- 조회 컬럼이 n개 이면 반드시 vo타입 사용 -->
+		select * from tbl_student
+		where stuno=#{stuno}
+	</select>
+	<select id="selectAll" resultType="StudentVo">
+		select * from tbl_student order by stuno
+	</select>
+	<select id="selectStuno" resultType="String">
+		<!-- 조회 컬럼이 1개이면 vo 타입 사용할 필요 ❌ -->
+		select stuno from tbl_student
+	</select>
+	<insert id="insert" parameterType="StudentVo">
+		insert into tbl_student(stuno,name,age,address) 
+                    values (#{stuno}, #{name}, #{age, jdbcType=NUMERIC}, #{address, jdbcType=VARCHAR})
+	</insert>
+	<update id="update" parameterType="StudentVo">
+		update tbl_student 
+		set address = #{address}
+		where stuno = #{stuno}
+	</update>
+	<delete id="delete" parameterType="String">
+		delete from tbl_student 
+			where stuno = #{stuno}
+	</delete>
+</mapper>  
+<!-- 
+${}  : jsp에서 getAttribute 역할
+       문자열 기호 ' ' 가 자동으로 생기지 않습니다.
+#{}  : 매퍼 XML 에서 파라미터 기호
+       문자열 기호 ' ' 가 자동으로 생깁니다.
+ -->
