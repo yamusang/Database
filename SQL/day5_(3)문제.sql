@@ -14,6 +14,9 @@ SELECT * FROM tbl_buy WHERE pcode LIKE '%0%';
 
 SELECT * FROM tbl_product WHERE pcode LIKE UPPER('%on%');
 
+--선생님
+SELECT tbl_buy WHERE LOWER(pcode) LIKE '%on%';
+
 SELECT tc.customer_id, tc.name, tb.buy_date FROM tbl_customer# tc, tbl_buy tb WHERE tc.customer_id = tb.customer_id AND TO_CHAR(tb.buy_date,'yyyy')='2024';
 
 SELECT * FROM tbl_customer# tc JOIN tbl_buy tb ON tc.customer_id = tb.customer_id AND TO_CHAR(tb.BUY_DATE,'yyyy')='2024';--선생님
