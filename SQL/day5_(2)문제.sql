@@ -83,3 +83,4 @@ INSERT INTO tbl_buy VALUES (seq_tblbuy.nextval,'twice' , 'MANGOTK4r' , 2 ,TO_DAT
 INSERT INTO tbl_buy VALUES (seq_tblbuy.nextval,'hongGD' , 'DOWON123a' , 1 ,TO_DATE('2025-01-13 14:33:15','yyyy-mm-dd hh24:mi:ss'));
 INSERT INTO tbl_buy VALUES (seq_tblbuy.nextval,'hongGD' , 'APLE5kg' , 1 ,TO_DATE('2024-09-09 14:33:15','yyyy-mm-dd hh24:mi:ss'));
 INSERT INTO tbl_buy VALUES (seq_tblbuy.nextval,'hongGD' , 'DOWON123a' , 1 ,TO_DATE('2025-01-13 09:33:15','yyyy-mm-dd hh24:mi:ss'));
+commit;
